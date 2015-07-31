@@ -12,12 +12,13 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
+//using System.Drawing;
 
 namespace PPS_Terminal
 {
 	public class Window1 : Window, IComponentConnector
 	{
-		private System.Windows.Controls.ListBox GroupListBox = new System.Windows.Controls.ListBox();
+        private System.Windows.Controls.ListBox GroupListBox = new System.Windows.Controls.ListBox();
 
 		private StackPanel RecipeGrid = new StackPanel();
 
@@ -45,11 +46,14 @@ namespace PPS_Terminal
 
 		private int selectPreparation;
 
+
 		private int SelectIndex;
 
 		private int MoveGridWidth;
 
 		private int MoveGridHidth;
+
+        //private void GroupListBox_DrawItem(object sender, DrawItemEventArgs e);
 
 		private StackPanel BattonPanel = new StackPanel();
 
@@ -69,10 +73,20 @@ namespace PPS_Terminal
 		{
 			this.InitializeComponent();
 		}
+        private class MyListBoxItem
+        {
+            public MyListBoxItem(FontFamily f, string m)
+            {
+                ItemFont = f;
+                Message = m;
+            }
+            private FontFamily ItemFont { get; set; }
+            private string Message { get; set; }
+        }
 
 		private void TerminalLoad(object sender, RoutedEventArgs e)
 		{
-            //System.Windows.Forms.Cursor.Hide();
+            System.Windows.Forms.Cursor.Hide();
             //Debug.WriteLine("staaart!");
 			int Width = SystemInformation.PrimaryMonitorSize.Width;
 			int Height = SystemInformation.PrimaryMonitorSize.Height;
@@ -140,13 +154,49 @@ namespace PPS_Terminal
 			AdvertismentTxt.FontSize = 32.0;
 			this.Advertismen.Children.Add(AdvertismentTxt);
 			this.GroupGrid.Children.Add(this.GroupListBox);
-			this.GroupListBox.Items.Add("О заповеднике");
-			this.GroupListBox.Items.Add("Природные условия");
-			this.GroupListBox.Items.Add("Деятельность заповедника");
-			this.GroupListBox.Items.Add("Экологические маршруты");
-			this.GroupListBox.Items.Add("Экологическое просвещение");
-			this.GroupListBox.Items.Add("Туристические услуги");
-			this.GroupListBox.Items.Add("Контактная информация");
+           
+            //TextBlock[] tb = new TextBlock[6];
+            //for (int i = 0; i < 6; i++ )
+            //{
+            //    tb[i] = new TextBlock();
+            //    tb[i].FontFamily = new FontFamily("Arial Black");
+            //    tb[i].FontSize = 14;
+            //}
+            
+            //MyListBoxItem itm = new MyListBoxItem(new FontFamily("Arial Black"), "О заповеднике");
+            //itm.Style.
+            //this.GroupListBox.Items.Add(new MyListBoxItem(new FontFamily("Arial Black"), "Природные условия"));
+            //this.GroupListBox.Items.Add(new MyListBoxItem(new FontFamily("Arial Black"), "Деятельность заповедника"));
+            //this.GroupListBox.Items.Add(new MyListBoxItem(new FontFamily("Arial Black"), "Экологические маршруты"));
+            //this.GroupListBox.Items.Add(new MyListBoxItem(new FontFamily("Arial Black"), "Экологическое просвещение"));
+            //this.GroupListBox.Items.Add(new MyListBoxItem(new FontFamily("Arial Black"), "Туристические услуги"));
+            //this.GroupListBox.Items.Add(new MyListBoxItem(new FontFamily("Arial Black"), "Контактная информация"));
+            //ListBoxItem itm;
+            //Style st = new Style()
+
+            //itm.Style
+            //tb[0].Text = "О заповеднике";
+            //this.GroupListBox.Items.Add(tb[0]);
+            //tb[1].Text = "Природные условия";
+            //this.GroupListBox.Items.Add(tb[1]);
+            //tb[2].Text = "Деятельность заповедника";
+            //this.GroupListBox.Items.Add(tb[2]);
+            //tb[3].Text = "Экологические маршруты";
+            //this.GroupListBox.Items.Add(tb[3]);
+            //tb[4].Text = "Экологическое просвещение";
+            //this.GroupListBox.Items.Add(tb[4]);
+            //tb[5].Text = "Контактная информация";
+            //this.GroupListBox.Items.Add(tb[5]);
+
+            //System.Windows.Forms.ListView lv = new System.Windows.Forms.ListView;
+            this.GroupListBox.Items.Add("О заповеднике");
+            this.GroupListBox.Items.Add("Природные условия");
+            this.GroupListBox.Items.Add("Деятельность заповедника");
+            this.GroupListBox.Items.Add("Экологические маршруты");
+            this.GroupListBox.Items.Add("Экологическое просвещение");
+            this.GroupListBox.Items.Add("Туристические услуги");
+            this.GroupListBox.Items.Add("Контактная информация");
+            
 			this.SmallImageListBox.Height = LeftGrid.Height / 2.0;
 			this.SmallImageListBox.Width = LeftGrid.Width - 5.0;
 			RightGrid.HorizontalAlignment = System.Windows.HorizontalAlignment.Right;
@@ -223,6 +273,37 @@ namespace PPS_Terminal
 			this.BattonPanel.MouseDown += new MouseButtonEventHandler(this.InfoCloseButton_Click);
 		}
 
+        //private void GroupListBox_DrawItem(object sender, DrawItemEventArgs e)
+        //{
+        //    e.DrawBackground();
+        //    e.Graphics.DrawString(GroupListBox_DrawItem.Items[e.Index].ToString(), new FontFamily("Arial"), Brushes.Black, e.Bounds);
+        //    e.DrawFocusRectangle();
+        //}
+        private void myListBox_DrawItem(object sender, System.Windows.Forms.DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            System.Drawing.Font myFont;
+            System.Drawing.Brush myBrush;
+            int i = e.Index;
+
+            if (e.Index == 3)
+            {
+                myFont = e.Font;
+                myBrush = System.Drawing.Brushes.Black;
+            }
+            else
+            {
+                myFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75f, System.Drawing.FontStyle.Bold);
+                myBrush = System.Drawing.Brushes.CadetBlue;
+            }
+            //System.Drawing.PointF p;
+            //p.X = e.Bounds.X;
+            //p.Y = e.Bounds.Y;
+            e.Graphics.DrawString(GroupListBox.Items[i].ToString(), myFont, myBrush, e.Bounds.X, e.Bounds.Y);
+            //e.Graphics.DrawString()
+            //e.Graphics.DrawString(GroupListBox.Items[i].ToString(), myFont, myBrush, e.Bounds, System.Drawing.StringFormat.GenericDefault);
+            //e.Graphics.DrawString(GroupListBox.Items[i].ToString(), myFont, myBrush, e.Bounds, System.Drawing.StringFormat.GenericDefault);
+        }
 		private void InfoCloseButton_Click(object sender, RoutedEventArgs e)
 		{
 			this.RecipeGrid.Children.Clear();
@@ -708,6 +789,7 @@ namespace PPS_Terminal
         [DebuggerNonUserCode]
         public void InitializeComponent()
         {
+            
             if (!this._contentLoaded)
             {
                 this._contentLoaded = true;
